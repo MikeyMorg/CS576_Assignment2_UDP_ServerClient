@@ -12,6 +12,7 @@ SERVER_HOST = "127.0.0.1"
 SERVER_PORT = 9999
 BUFFER_SIZE = 1024
 
+#Should update soon
 HUMOROUS_SUFFIX = " - filler humorous joke."
 
 # Append humorous suffix to the received message
@@ -19,10 +20,13 @@ def get_reply(message: str) -> str:
     return f"{message}{HUMOROUS_SUFFIX}"
 
 def main():
+    #Create a UDP socket and bind it to the set host and port, and listen for message
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
         sock.bind((SERVER_HOST, SERVER_PORT))
         print(f"[SERVER] Listening on {SERVER_HOST}:{SERVER_PORT}  (UDP)  -  Ctrl+C to stop\n")
 
+        # Keep listening for incoming messages and reply by adding the humorous suffix to
+        #The orginal message, and print the received message and the reply being sent back to the client
         while True:
             data, client_addr = sock.recvfrom(BUFFER_SIZE)
             message = data.decode("ascii")

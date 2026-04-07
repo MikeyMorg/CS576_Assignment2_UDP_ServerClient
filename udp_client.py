@@ -18,20 +18,24 @@ def main():
     # Accept an optional command-line message, default to "Hello"
     message = " ".join(sys.argv[1:]) if len(sys.argv) > 1 else "Hello"
 
+    #Create a UDP socket and set the timeout interval for communication with the server
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
         sock.settimeout(TIMEOUT_SEC)
 
-        # Send
+        # Send the message to the server
         sock.sendto(message.encode("ascii"), (SERVER_HOST, SERVER_PORT))
         print(f"\n[CLIENT] Sent to server  : \"{message}\"")
 
-        # Receive
+        # Receive the reply from the server, with error handling for timeouts
         try:
             data, server_addr = sock.recvfrom(BUFFER_SIZE)
+        
+        #If a timeout is reached, print an error message and exit
         except socket.timeout:
             print("[CLIENT] ERROR: No response from server (timeout). Is udp_server.py running?")
             return
 
+        # Decode the reply and print it back to the user
         reply = data.decode("ascii")
         print(f"[CLIENT] Reply received  : \"{reply}\"")
         print(f"\n{'='*60}")
