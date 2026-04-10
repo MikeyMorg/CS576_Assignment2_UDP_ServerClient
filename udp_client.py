@@ -1,4 +1,4 @@
-# Group Programming Assignment #2
+# Group Programming Assignment #2 - udp_client.py
 # Group Members: Michael Morgan, Maximus Daversa, Paris Cabatit, Justin Cruz
 # Instructor: Dr. Wei Wang
 
