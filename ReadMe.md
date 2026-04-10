@@ -33,3 +33,87 @@ The [Your Message Here] is a placeholder, feel free to put anything in as long a
 &emsp;With this assignment, we were able to utilize a UDP client-server application through the application of python socket programming. We established a server that reads in a message from a client, that's connected to the same port, and returns the message with a humorous message appended to it. The client prepares the message by encoding the message as ASCII prior to sending it to the server, in which the server returns the ASCII message with an appended message. This assignment allowed us to have a working implementation of UDP communication. 
 
 # Source Code:
+```
+# Group Programming Assignment #2 - udp_server.py
+# Group Members: Michael Morgan, Maximus Daversa, Paris Cabatit, Justin Cruz
+# Instructor: Dr. Wei Wang
+
+# Import statements
+import socket
+
+# Constants
+SERVER_HOST = "127.0.0.1"
+SERVER_PORT = 9999
+BUFFER_SIZE = 1024
+
+#Humorous Message to Append
+HUMOROUS_JOKES = " What do you call a fish without eyes? A fsh."
+
+# Append humorous suffix to the received message
+def get_reply(message: str) -> str:
+    return f"{message}{HUMOROUS_JOKES}"
+
+def main():
+    #Create a UDP socket and bind it to the set host and port, and listen for message
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        sock.bind((SERVER_HOST, SERVER_PORT))
+        print(f"[SERVER] Listening on {SERVER_HOST}:{SERVER_PORT}  (UDP)  -  Ctrl+C to stop\n")
+
+        # Keep listening for incoming messages and reply by adding the humorous suffix to
+        #The orginal message, and print the received message and the reply being sent back to the client
+        while True:
+            data, client_addr = sock.recvfrom(BUFFER_SIZE)
+            message = data.decode("ascii")
+            reply   = get_reply(message)
+
+            print(f"[SERVER] Received from {client_addr}: '{message}'")
+            print(f"[SERVER] Sending reply : '{reply}'\n")
+
+            sock.sendto(reply.encode("ascii"), client_addr)
+
+main()
+
+# Group Programming Assignment #2 - udp_client.py
+# Group Members: Michael Morgan, Maximus Daversa, Paris Cabatit, Justin Cruz
+# Instructor: Dr. Wei Wang
+
+# Import statements
+import socket
+import sys
+
+# Constants
+SERVER_HOST = "127.0.0.1"
+SERVER_PORT = 9999
+BUFFER_SIZE = 1024
+TIMEOUT_SEC = 5
+
+def main():
+    # Accept an optional command-line message, default to "Hello"
+    message = " ".join(sys.argv[1:]) if len(sys.argv) > 1 else "Hello"
+
+    #Create a UDP socket and set the timeout interval for communication with the server
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        sock.settimeout(TIMEOUT_SEC)
+
+        # Send the message to the server
+        sock.sendto(message.encode("ascii"), (SERVER_HOST, SERVER_PORT))
+        print(f"\n[CLIENT] Sent to server  : \"{message}\"")
+
+        # Receive the reply from the server, with error handling for timeouts
+        try:
+            data, server_addr = sock.recvfrom(BUFFER_SIZE)
+        
+        #If a timeout is reached, print an error message and exit
+        except socket.timeout:
+            print("[CLIENT] ERROR: No response from server (timeout). Is udp_server.py running?")
+            return
+
+        # Decode the reply and print it back to the user
+        reply = data.decode("ascii")
+        print(f"[CLIENT] Reply received  : \"{reply}\"")
+        print(f"\n{'='*60}")
+        print(f"You sent    : {message}")
+        print(f"Server says : {reply}")
+        print(f"{'='*60}\n")
+
+main()
