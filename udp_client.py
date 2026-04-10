@@ -1,8 +1,6 @@
 # Group Programming Assignment #2
 # Group Members: Michael Morgan, Maximus Daversa, Paris Cabatit, Justin Cruz
 # Instructor: Dr. Wei Wang
-#
-#
 
 # Import statements
 import socket
