@@ -9,7 +9,6 @@ Michael Morgan, Maximus Daversa, Paris Cabatit, Justin Cruz
 # System Design:
 ## Server:
 &emsp;The server uses a simple UDP client-server design. The server runs on a localhost port 9999 and waits for incoming UDP messages from the client. Because UDP is         connectionless, the server doesn't establish a session before obtaining data. As a message arrives from the client, the server will read the ASCII characters and appends a   humorous message at the end, and sends the modified message back to client through their address and port information.
-
 ## Client:
 &emsp;The client uses UDP to send a single message to the server on localhost port 9999. No connection setup is required for transmission. The client sends an ASCII character message like "Hello," to the server and waits for a reply. Timeout is included so the client isn't waiting forever for a returned message, and if the server isn't running. Once the reply is received, it decodes the ASCII data and prints out the original message and response from the server.
 
@@ -31,6 +30,6 @@ Michael Morgan, Maximus Daversa, Paris Cabatit, Justin Cruz
 The [Your Message Here] is a placeholder, feel free to put anything in as long as it follows ASCII characters
 
 # Conclusion:
-
+&emsp;With this assignment, we were able to utilize a UDP client-server application through the application of python socket programming. We established a server that reads in a message from a client, that's connected to the same port, and returns the message with a humorous message appended to it. The client prepares the message by encoding the message as ASCII prior to sending it to the server, in which the server returns the ASCII message with an appended message. This assignment allowed us to have a working implementation of UDP communication. 
 
 # Source Code:
