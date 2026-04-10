@@ -12,12 +12,12 @@ SERVER_HOST = "127.0.0.1"
 SERVER_PORT = 9999
 BUFFER_SIZE = 1024
 
-#Should update soon
-HUMOROUS_SUFFIX = " - filler humorous joke."
+#Humorous Message to Append
+HUMOROUS_JOKES = " What do you call a fish without eyes? A fsh."
 
 # Append humorous suffix to the received message
 def get_reply(message: str) -> str:
-    return f"{message}{HUMOROUS_SUFFIX}"
+    return f"{message}{HUMOROUS_JOKES}"
 
 def main():
     #Create a UDP socket and bind it to the set host and port, and listen for message
