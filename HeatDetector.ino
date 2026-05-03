@@ -6,8 +6,8 @@
 #include <ArduinoJson.h>
 
 // WiFi credentials
-#define ssid "ATTFVUyTUI"
-#define password "Division131!!"
+#define ssid "[Your WiFi]"
+#define password "[Your WiFi password]"
 
 // Telegram Bot Token
 #define BOT_TOKEN "8681924182:AAF_jEAP68AYE7yk0w0JKczuPzv_vwNJEk0"
